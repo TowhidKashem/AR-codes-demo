@@ -1,4 +1,5 @@
 {
+  "name": "augmented-reality-demo",
   "devDependencies": {
     "prettier": "^2.7.1"
   }

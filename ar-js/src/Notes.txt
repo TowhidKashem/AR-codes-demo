@@ -1,4 +1,0 @@
-
-https://api.allorigins.win/get?url=
-
-
