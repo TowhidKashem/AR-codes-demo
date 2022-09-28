@@ -1,0 +1,61 @@
+<a-scene
+  loading-screen='dotsColor: #fff; backgroundColor: #222'
+  background='color: #222'
+>
+  <a-assets>
+    <img id='car' src='./images/bitly-logo.svg' />
+    <img id='launchpad' src='./images/launchpad.png' />
+
+    <video id='video' src='./videos/sample.mp4' preload></video>
+
+    <audio
+      id='audio'
+      src='https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav'
+      preload
+    ></audio>
+
+    <img
+      id='bg'
+      src='https://etiennepinchon.github.io/aframe-rounded/static/background.jpg'
+    />
+
+    <img id='qrcode' src='./images/qr-code.png' />
+    <img id='sky' src='./images/sechelt.jpg' />
+    <img id='ground' src='./images/floor.jpg' />
+
+    <img id='youtube' src='./images/youtube.png' />
+  </a-assets>
+
+  <a-camera cursor='rayOrigin: mouse' position="0 1.6 0">
+    <a-cursor material='color: white; shader: flat'></a-cursor>
+  </a-camera>
+
+  <!-- position: <RIGHT/LEFT> / <UP/DOWN> / <FORWARD/BACKWARD> -->
+
+  <!-- background -->
+  <a-box
+    position="-1 1 -6.5"
+    width='4'
+    height='7'
+    color='#4267B2'
+  >
+
+  {{> Avatar position="0 2.6 1" radius="0.4" }}
+
+
+
+{{#each buttons}}
+  {{> Button position="-1.7 1.5 1" label="{{this.label}}" }}
+{{/each}}
+
+
+  {{!-- {{> Button position="-1.7 1.5 1" }}
+  {{> Button position="-1.7 0.9 1" }}
+  {{> Button position="-1.7 0.3 1" }}
+  {{> Button position="-1.7 -0.3 1" }}
+  {{> Button position="-1.7 -0.9 1" }} --}}
+
+
+  </a-box>
+
+</a-scene>
