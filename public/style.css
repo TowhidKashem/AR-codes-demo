@@ -1,13 +1,24 @@
-li {
-  font-size: 2rem;
-  width: 300px;
-  margin: 4px;
-  padding: 4px;
-  list-style: none;
+* {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  overflow: hidden;
 }
-.midlaner {
-  background-color: #ffea00;
+
+body {
+  position: relative;
+  background: #00222b;
+  filter: blur(4px);
 }
-.toplaner {
-  background-color: #eeeeee;
+
+canvas#canvas {
+  display: block;
+  border: 2px solid red;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.launchpad-web {
+  z-index: 1000;
 }

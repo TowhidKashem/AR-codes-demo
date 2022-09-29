@@ -1,3 +1,325 @@
+<!-- position: <RIGHT/LEFT> / <UP/DOWN> / <FORWARD/BACKWARD> -->
+
+{{!-- <a-scene>
+  <a-assets>
+    <img id='car' src='./images/bitly-logo.svg' />
+    <img id='launchpad' src='./images/launchpad.png' />
+
+    <video id='video' src='./videos/sample.mp4' preload></video>
+
+    <audio
+      id='audio'
+      src='https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav'
+      preload
+    ></audio>
+
+    <img
+      id='bg'
+      src='https://etiennepinchon.github.io/aframe-rounded/static/background.jpg'
+    />
+
+    <img id='qrcode' src='./images/qr-code.png' />
+    <img id='sky' src='./images/sechelt.jpg' />
+    <img id='ground' src='./images/floor.jpg' />
+
+    <img id='youtube' src='./images/youtube.png' />
+
+    <img
+      id='profile'
+      src='https://images.unsplash.com/photo-1485893086445-ed75865251e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80'
+    />
+
+    <img id='pinterest' src='./images/social-icons/Pinterest.png' />
+    <img id='youtube' src='./images/youtube.png' />
+
+  </a-assets> --}}
+
+  {{! <a-camera cursor='rayOrigin: mouse' position='0 1.6 0'>
+    <a-cursor material='color: white; shader: flat'></a-cursor>
+  </a-camera> }}
+{{!-- 
+  <a-entity
+    position='-1 1 -6.5'
+    geometry='primitive: box'
+    material='shader: html; target: #htmlElement'
+  ></a-entity>
+</a-scene> --}}
+
+{{> Launchpad }}
+
+
+
+<script>
+  /*
+* File Name / glitteringSea.js
+* Created Date / Aug 14, 2020
+* Aurhor / Toshiya Marukubo
+* Twitter / https://twitter.com/toshiyamarukubo
+*/
+
+(function () {
+  'use strict';
+  window.addEventListener('load', function () {
+    var canvas = document.getElementById('canvas');
+
+    if (!canvas || !canvas.getContext) {
+      return false;
+    }
+
+    /********************
+      Random Number
+    ********************/
+
+    function rand(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    
+    /********************
+      Var
+    ********************/
+
+    var ctx = canvas.getContext('2d');
+    var X = canvas.width = window.innerWidth;
+    var Y = canvas.height = window.innerHeight;
+    var mouseX = null;
+    var mouseY = null;
+    var shapeNum = 300;
+    var shapes = [];
+    var style = {
+      black: 'black',
+      white: 'white',
+      lineWidth: 4,
+    };
+
+    /********************
+      Animation
+    ********************/
+
+    window.requestAnimationFrame =
+      window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function(cb) {
+        setTimeout(cb, 17);
+      };
+
+    /********************
+      Shape
+    ********************/
+     
+    function Shape(ctx, x, y) {
+      this.ctx = ctx;
+      this.init(x, y);
+    }
+    
+    Shape.prototype.init = function(x, y) {
+      this.x = x;
+      this.y = y;
+      this.r = rand(10, 25);
+      this.ga = Math.random() * Math.random() * Math.random() * Math.random();
+      this.v = {
+        x: Math.random(),
+        y: -1
+      };
+      this.l = rand(0, 20);
+      this.sl = this.l;
+    };
+
+    Shape.prototype.updateParams = function() {
+      var ratio = this.l / this.sl;
+      //this.r *= ratio;
+      this.l -= 1;
+      if (this.l < 0) {
+        this.init(X * (Math.random() + Math.random()) / 2, rand(0, Y));
+      }
+    };
+
+    Shape.prototype.updatePosition = function() {
+      this.x += Math.random();
+      this.y += -Math.random();
+    };
+    
+    Shape.prototype.draw = function() {
+      var ctx  = this.ctx;
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = this.ga;
+      //ctx.fillStyle = 'rgb(123, 252, 100)';
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    Shape.prototype.render = function(i) {
+      this.updatePosition();
+      this.updateParams();
+      this.draw();
+    };
+
+    for (var i = 0; i < shapeNum; i++) {
+      var s = new Shape(ctx, X * (Math.random() + Math.random()) / 2, rand(0, Y));
+      shapes.push(s);
+    }
+
+    /********************
+      Render
+    ********************/
+    
+    function render() {
+      ctx.clearRect(0, 0, X, Y);
+      for (var i = 0; i < shapes.length; i++) {
+        shapes[i].render(i);
+      }
+      requestAnimationFrame(render);
+    }
+
+    render();
+
+    /********************
+      Event
+    ********************/
+    
+    function onResize() {
+      X = canvas.width = window.innerWidth;
+      Y = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', function() {
+      onResize();
+    });
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, false);
+
+  });
+})();
+
+</script>
+
+
+
+
+
+
+
+    <!-- <script src="./components/cube.js"></script> -->
+
+    <script>
+      // AFRAME.registerState({
+      //   initialState: {
+      //     score: 0
+      //   },
+
+      //   handlers: {
+      //     decreaseScore: function (state, action) {
+      //       state.score -= action.points;
+      //     },
+
+      //     increaseScore: function (state, action) {
+      //       state.score += action.points;
+      //     }
+      //   }
+      // });
+
+      AFRAME.registerComponent('scale-on-mouseenter', {
+        schema: {
+          to: {
+            default: '2.5 2.5 2.5',
+            type: 'vec3'
+          }
+        },
+        init: function () {
+          this.el.addEventListener('mouseenter', () => {
+            this.el.object3D.scale.copy(this.data.to);
+          });
+        }
+      });
+    </script>
+
+
+
+      <!-- <a-ocean color="aqua" depth="100" width="100"></a-ocean> -->
+
+      <!-- animation="property: object3D.position.y; to: 2.2; dir: alternate; dur: 2000; loop: true" -->
+
+
+
+
+      const extendDeep = AFRAME.utils.extendDeep;
+
+      // The mesh mixin provides common material properties for creating mesh-based primitives
+      // This makes the material component a default component and maps all the base material properties
+      const meshMixin = AFRAME.primitives.getMeshMixin();
+
+      AFRAME.registerPrimitive('a-ocean', {
+        // Attaches the `ocean` component by default.
+        // Defaults the ocean to be parallel to the ground.
+        defaultComponents: {
+          ocean: {},
+          rotation: {
+            x: -90,
+            y: 0,
+            z: 0
+          }
+        },
+        // Maps HTML attributes to the `ocean` component's properties.
+        mappings: {
+          width: 'ocean.width',
+          depth: 'ocean.depth',
+          density: 'ocean.density',
+          color: 'ocean.color',
+          opacity: 'ocean.opacity'
+        }
+      });
+
+
+
+      <!-- <a-sky src="#bg"></a-sky> -->
+
+      <!-- <a-sky src="#skyTexture"></a-sky>
+
+      <a-plane
+        src="#groundTexture"
+        rotation="-90 0 0"
+        width="30"
+        height="30"
+        repeat="10 10"
+      ></a-plane>
+
+      <a-light type="ambient" color="#445451"></a-light>
+      <a-light type="point" intensity="2" position="2 4 4"></a-light> -->
+
+      <!-- <a-entity geometry="primitive: plane" material="src: #video"></a-entity> -->
+
+
+            <!-- <a-sound src="#audio" autoplay="true" position="-3 1 -4"></a-sound> -->
+
+
+                  <!-- <a-curvedimage
+        src="#car"
+        height="3.0"
+        radius="5.7"
+        theta-length="32"
+        rotation="0 100 0"
+        scale="0.8 0.8 0.8"
+      ></a-curvedimage>
+
+
+
+            <a-entity
+        text="value: Hello, A-Frame!; color: #BBB"
+        position="-0.9 0.2 -3"
+        scale="1.5 1.5 1.5"
+      ></a-entity>
+
+
+
+
 <a-scene
   loading-screen='dotsColor: #fff; backgroundColor: #222'
   background='color: #222'
@@ -24,40 +346,67 @@
     <img id='ground' src='./images/floor.jpg' />
 
     <img id='youtube' src='./images/youtube.png' />
+
+    <img
+      id='profile'
+      src='https://images.unsplash.com/photo-1485893086445-ed75865251e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80'
+    />
+
+    <img id='pinterest' src='./images/social-icons/Pinterest.png' />
+    <img id='youtube' src='./images/youtube.png' />
+
   </a-assets>
 
-  <a-camera cursor='rayOrigin: mouse' position="0 1.6 0">
+  <a-camera cursor='rayOrigin: mouse' position='0 1.6 0'>
     <a-cursor material='color: white; shader: flat'></a-cursor>
   </a-camera>
 
   <!-- position: <RIGHT/LEFT> / <UP/DOWN> / <FORWARD/BACKWARD> -->
 
-  <!-- background -->
-  <a-box
-    position="-1 1 -6.5"
-    width='4'
-    height='7'
-    color='#4267B2'
-  >
+  <!-- profile -->
+  <a-entity position='-1 1 -6.5'>
 
-  {{> Avatar position="0 2.6 1" radius="0.4" }}
+    <!-- avatar -->
+    <a-entity
+      position='0 1.4 1'
+      rotation='0 0 0'
+      animation='property: rotation; to: 0 360 0; loop: true; dur: 10000'
+    >
+      <a-sphere src='#profile' radius='1.5'></a-sphere>
+    </a-entity>
 
+    <!-- socials -->
+    <a-entity position='-3.5 -1 1.2'>
 
+      <a-box
+        src='#youtube'
+        position='1.1 1 1'
+        height='0.4'
+        width='0.4'
+        depth='0.4'
+      >
+        ></a-box>
 
-{{#each buttons}}
-  {{> Button position="-1.7 1.5 1" label="{{this.label}}" }}
-{{/each}}
+      <a-sphere
+        src='#facebook'
+        position='1.9 1 1'
+        radius='0.2'
+        height='0.4'
+        width='0.4'
+        depth='0.4'
+      >
+        ></a-sphere>
 
+      <a-box
+        src='#pinterest'
+        position='2.7 1 1'
+        height='0.4'
+        width='0.4'
+        depth='0.4'
+      >
+        ></a-box>
 
-  {{> Button position="-1.7 1.5 1" }}
-  {{> Button position="-1.7 0.9 1" }}
-  {{> Button position="-1.7 0.3 1" }}
-  {{> Button position="-1.7 -0.3 1" }}
-  {{> Button position="-1.7 -0.9 1" }}
+    </a-entity>
 
-
-  </a-box>
-
+  </a-entity>
 </a-scene>
-
-0.6

@@ -1,0 +1,41 @@
+<a-scene
+  loading-screen='dotsColor: #fff; backgroundColor: #222'
+  background='color: #222'
+>
+  {{> AssetManager }}
+
+  <a-camera cursor='rayOrigin: mouse' position="0 1.6 0">
+    <a-cursor material='color: white; shader: flat'></a-cursor>
+  </a-camera>
+
+  <!-- position: <RIGHT/LEFT> / <UP/DOWN> / <FORWARD/BACKWARD> -->
+
+  <!-- background -->
+  <a-box
+    position="-1 1 -6.5"
+    width='4.2'
+    height='7'
+    color='#4267B2'
+  >
+    <!-- avatar -->
+    <a-circle src='#profile' position="0 2.6 1" radius="0.7"></a-circle>
+
+    <!-- buttons -->
+    {{#each buttons}}
+      {{> Button position=this.position label=this.label }}
+      <a-rounded
+  position='{{position}}'
+  width='3.5'
+  height='0.5'
+  radius='0.26'
+  color='yellow'
+>
+  <a-entity
+    position='2.2 0.25 0'
+    scale='3 3 3'
+    text='value: {{label}}; color:black'
+  ></a-entity>
+</a-rounded>
+    {{/each}}
+  </a-box>
+</a-scene>

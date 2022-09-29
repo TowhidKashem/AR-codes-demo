@@ -1,15 +1,13 @@
 <!-- position: <RIGHT/LEFT> / <UP/DOWN> / <FORWARD/BACKWARD> -->
 
-<a-rounded
+<a-box
+  src='#qrcode'
   position='{{position}}'
-  width='3.5'
-  height='0.5'
-  radius='0.26'
-  color='yellow'
+  {{! animation__position='property: object3D.position.y; to: 0.3; dir: alternate; dur: 2000; loop: true' }}
+  rotation='-0.5 0 0'
+  height='0.4'
+  width='0.4'
+  depth='0.4'
+  {{! scale-on-mouseenter }}
 >
-  <a-entity
-    position='2.2 0.25 0'
-    scale='3 3 3'
-    text='value: HELLO;color:black'
-  ></a-entity>
-</a-rounded>
+  ></a-box>
